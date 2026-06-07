@@ -1,37 +1,108 @@
+import java.util.Scanner;
+
 public class TemperatureConverter {
 
     public static double convertTemperature(double temperature, String unit) {
 
-        // If the temperature is in Celsius, convert to Fahrenheit
-        if (unit.equals("C")) {
-            double result = (temperature * 9.0 / 5.0) + 32.0;
-            return result;
+        if (unit.equalsIgnoreCase("C")) {
+            return (temperature * 9.0 / 5.0) + 32;
+        }
+        else if (unit.equalsIgnoreCase("F")) {
+            return (temperature - 32) * 5.0 / 9.0;
         }
 
-        // If the temperature is in Fahrenheit, convert to Celsius
-        else if (unit.equals("F")) {
-            double result = (temperature - 32.0) * 5.0 / 9.0;
-            return result;
+        return 0.0;
+    }
+
+    public static boolean isNumeric(String str) {
+
+        if (str == null || str.length() == 0) {
+            return false;
         }
 
-        // If the temperature is in Kelvin, convert to Celsius
-        else if (unit.equals("K")) {
-            double result = temperature - 273.15;
-            return result;
+        int start = 0;
+
+        if (str.charAt(0) == '-') {
+            if (str.length() == 1) {
+                return false;
+            }
+            start = 1;
         }
 
-        // Unknown unit - return 0
-        else {
-            return 0.0;
+        boolean decimalFound = false;
+
+        for (int i = start; i < str.length(); i++) {
+
+            char ch = str.charAt(i);
+
+            if (ch == '.') {
+
+                if (decimalFound) {
+                    return false;
+                }
+
+                decimalFound = true;
+            }
+            else if (!Character.isDigit(ch)) {
+                return false;
+            }
         }
+
+        return true;
     }
 
     public static void main(String[] args) {
 
-        // Test a few conversions and print them out
-        System.out.println("100 C = " + convertTemperature(100, "C") + " F");
-        System.out.println("212 F = " + convertTemperature(212, "F") + " C");
-        System.out.println("373.15 K = " + convertTemperature(373.15, "K") + " C");
+        Scanner input = new Scanner(System.in);
 
+        boolean running = true;
+
+        while (running) {
+
+            System.out.print("Enter a temperature value or type stop to quit: ");
+            String tempInput = input.nextLine();
+
+            if (tempInput.equalsIgnoreCase("stop")) {
+                running = false;
+            }
+            else if (!isNumeric(tempInput)) {
+                System.out.println("Error: Invalid temperature value.");
+            }
+            else {
+
+                double temperature = Double.parseDouble(tempInput);
+
+                System.out.print("Enter unit (C or F): ");
+                String unit = input.nextLine();
+
+                if (!unit.equalsIgnoreCase("C")
+                        && !unit.equalsIgnoreCase("F")) {
+
+                    System.out.println("Error: Invalid unit.");
+                }
+                else {
+
+                    double converted =
+                            convertTemperature(temperature, unit);
+
+                    if (unit.equalsIgnoreCase("C")) {
+
+                        System.out.printf(
+                                "%.2f°C is equal to %.2f°F%n",
+                                temperature,
+                                converted);
+
+                    } else {
+
+                        System.out.printf(
+                                "%.2f°F is equal to %.2f°C%n",
+                                temperature,
+                                converted);
+                    }
+                }
+            }
+        }
+
+        input.close();
     }
 }
