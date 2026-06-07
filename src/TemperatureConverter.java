@@ -5,9 +5,9 @@ public class TemperatureConverter {
     public static double convertTemperature(double temperature, String unit) {
 
         if (unit.equalsIgnoreCase("C")) {
-            return (temperature * 9.0 / 5.0) + 32;
+            return (temperature * 9 / 5.0) + 32;
         } else {
-            return (temperature - 32) * 5.0 / 9.0;
+            return (temperature - 32) * 5 / 9.0;
         }
     }
 
@@ -24,38 +24,30 @@ public class TemperatureConverter {
 
             if (tempInput.equalsIgnoreCase("stop")) {
                 running = false;
-            }
-            else {
+            } else {
 
-                boolean validNumber = true;
+                boolean valid = true;
 
                 for (int i = 0; i < tempInput.length(); i++) {
 
                     char ch = tempInput.charAt(i);
 
-                    if (!Character.isDigit(ch)
+                    if ((ch < '0' || ch > '9')
                             && ch != '.'
                             && ch != '-') {
-                        validNumber = false;
+                        valid = false;
                     }
                 }
 
-                if (!validNumber || tempInput.length() == 0) {
-                    System.out.println("Error: Invalid temperature value.");
-                }
-                else {
+                if (valid) {
 
                     double temperature = Double.parseDouble(tempInput);
 
                     System.out.print("Enter unit (C or F): ");
                     String unit = input.nextLine();
 
-                    if (!unit.equalsIgnoreCase("C")
-                            && !unit.equalsIgnoreCase("F")) {
-
-                        System.out.println("Error: Invalid unit.");
-                    }
-                    else {
+                    if (unit.equalsIgnoreCase("C")
+                            || unit.equalsIgnoreCase("F")) {
 
                         double converted =
                                 convertTemperature(temperature, unit);
@@ -74,7 +66,13 @@ public class TemperatureConverter {
                                     temperature,
                                     converted);
                         }
+
+                    } else {
+                        System.out.println("Error: Invalid unit.");
                     }
+
+                } else {
+                    System.out.println("Error: Invalid temperature value.");
                 }
             }
         }
