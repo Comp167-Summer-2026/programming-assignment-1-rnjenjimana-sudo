@@ -23,9 +23,11 @@ public class TemperatureConverter {
         int start = 0;
 
         if (str.charAt(0) == '-') {
+
             if (str.length() == 1) {
                 return false;
             }
+
             start = 1;
         }
 
@@ -75,30 +77,30 @@ public class TemperatureConverter {
                 System.out.print("Enter unit (C or F): ");
                 String unit = input.nextLine();
 
-                if (!unit.equalsIgnoreCase("C")
+                while (!unit.equalsIgnoreCase("C")
                         && !unit.equalsIgnoreCase("F")) {
 
                     System.out.println("Error: Invalid unit.");
+                    System.out.print("Enter unit (C or F): ");
+                    unit = input.nextLine();
                 }
-                else {
 
-                    double converted =
-                            convertTemperature(temperature, unit);
+                double converted =
+                        convertTemperature(temperature, unit);
 
-                    if (unit.equalsIgnoreCase("C")) {
+                if (unit.equalsIgnoreCase("C")) {
 
-                        System.out.printf(
-                                "%.2fC is equal to %.2fF%n",
-                                temperature,
-                                converted);
+                    System.out.printf(
+                            "%.2fC is equal to %.2fF%n",
+                            temperature,
+                            converted);
 
-                    } else {
+                } else {
 
-                        System.out.printf(
-                                "%.2fF is equal to %.2fC%n",
-                                temperature,
-                                converted);
-                    }
+                    System.out.printf(
+                            "%.2fF is equal to %.2fC%n",
+                            temperature,
+                            converted);
                 }
             }
         }
