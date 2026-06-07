@@ -1,82 +1,93 @@
+ublic class TemperatureConverter {
 import java.util.Scanner;
 
+    /* hint
 public class TemperatureConverter {
 
-    public static double convertTemperature(double temperature, String unit) {
+    public static double convertTemperature(double temperature, String unit) {
+        // TODO: students implement this
+        return 0.0;
+        if (unit.equalsIgnoreCase("C")) {
+            return (temperature * 9.0 / 5.0) + 32;
+        } else {
+            return (temperature - 32) * 5.0 / 9.0;
+        }
+    }
 
-        if (unit.equalsIgnoreCase("C")) {
-            return (temperature * 9 / 5.0) + 32;
-        } else {
-            return (temperature - 32) * 5 / 9.0;
-        }
-    }
+     */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {
+        // TODO: students implement this
+        Scanner input = new Scanner(System.in);
 
-        Scanner input = new Scanner(System.in);
+        boolean running = true;
 
-        boolean running = true;
+        while (running) {
 
-        while (running) {
+            System.out.print("Enter a temperature value or type \"stop\" to quit: ");
+            String tempInput = input.nextLine();
 
-            System.out.print("Enter a temperature value or type stop to quit: ");
-            String tempInput = input.nextLine();
+            if (tempInput.equalsIgnoreCase("stop")) {
+                running = false;
+            } else if (!isNumeric(tempInput)) {
+                System.out.println("Error: Invalid temperature value. Please enter a number.");
+            } else {
 
-            if (tempInput.equalsIgnoreCase("stop")) {
-                running = false;
-            } else {
+                double temperature = Double.parseDouble(tempInput);
 
-                boolean valid = true;
+                System.out.print("Enter the unit (C or F): ");
+                String unit = input.nextLine();
 
-                for (int i = 0; i < tempInput.length(); i++) {
+                if (!unit.equalsIgnoreCase("C") && !unit.equalsIgnoreCase("F")) {
+                    System.out.println("Error: Invalid unit. Please enter C or F.");
+                } else {
 
-                    char ch = tempInput.charAt(i);
+                    double converted = convertTemperature(temperature, unit);
 
-                    if ((ch < '0' || ch > '9')
-                            && ch != '.'
-                            && ch != '-') {
-                        valid = false;
-                    }
-                }
+                    if (unit.equalsIgnoreCase("C")) {
+                        System.out.printf("%.2f°C is equal to %.2f°F%n",
+                                temperature, converted);
+                    } else {
+                        System.out.printf("%.2f°F is equal to %.2f°C%n",
+                                temperature, converted);
+                    }
+                }
+            }
+        }
 
-                if (valid) {
+        System.out.println("Program ended.");
+        input.close();
+    }
 
-                    double temperature = Double.parseDouble(tempInput);
+    public static boolean isNumeric(String str) {
+        if (str == null || str.length() == 0) {
+            return false;
+        }
 
-                    System.out.print("Enter unit (C or F): ");
-                    String unit = input.nextLine();
+        int start = 0;
 
-                    if (unit.equalsIgnoreCase("C")
-                            || unit.equalsIgnoreCase("F")) {
+        if (str.charAt(0) == '-') {
+            if (str.length() == 1) {
+                return false;
+            }
+            start = 1;
+        }
 
-                        double converted =
-                                convertTemperature(temperature, unit);
+        boolean decimalFound = false;
 
-                        if (unit.equalsIgnoreCase("C")) {
+        for (int i = start; i < str.length(); i++) {
+            char ch = str.charAt(i);
 
-                            System.out.printf(
-                                    "%.2f°C is equal to %.2f°F%n",
-                                    temperature,
-                                    converted);
+            if (ch == '.') {
+                if (decimalFound) {
+                    return false;
+                }
+                decimalFound = true;
+            } else if (!Character.isDigit(ch)) {
+                return false;
+            }
+        }
 
-                        } else {
-
-                            System.out.printf(
-                                    "%.2f°F is equal to %.2f°C%n",
-                                    temperature,
-                                    converted);
-                        }
-
-                    } else {
-                        System.out.println("Error: Invalid unit.");
-                    }
-
-                } else {
-                    System.out.println("Error: Invalid temperature value.");
-                }
-            }
-        }
-
-        input.close();
-    }
+        return true;
+    }
 }
