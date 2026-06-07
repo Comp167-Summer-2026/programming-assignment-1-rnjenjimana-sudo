@@ -1,62 +1,37 @@
-import java.util.Scanner;
-
 public class TemperatureConverter {
 
     public static double convertTemperature(double temperature, String unit) {
 
-        // If the unit is Celsius, convert to Fahrenheit
+        // If the temperature is in Celsius, convert to Fahrenheit
         if (unit.equals("C")) {
-            double fahrenheit = (temperature * 9 / 5) + 32;
-            return fahrenheit;
+            double result = (temperature * 9.0 / 5.0) + 32.0;
+            return result;
         }
 
-        // If the unit is Fahrenheit, convert to Celsius
+        // If the temperature is in Fahrenheit, convert to Celsius
         else if (unit.equals("F")) {
-            double celsius = (temperature - 32) * 5 / 9;
-            return celsius;
+            double result = (temperature - 32.0) * 5.0 / 9.0;
+            return result;
         }
 
-        // If the unit is Kelvin, convert to Celsius
+        // If the temperature is in Kelvin, convert to Celsius
         else if (unit.equals("K")) {
-            double celsius = temperature - 273.15;
-            return celsius;
+            double result = temperature - 273.15;
+            return result;
         }
 
-        // If we don't recognize the unit, just return 0
+        // Unknown unit - return 0
         else {
-            System.out.println("Sorry, I don't recognize that unit.");
             return 0.0;
         }
     }
 
     public static void main(String[] args) {
 
-        // Create a scanner so we can read input from the user
-        Scanner scanner = new Scanner(System.in);
+        // Test a few conversions and print them out
+        System.out.println("100 C = " + convertTemperature(100, "C") + " F");
+        System.out.println("212 F = " + convertTemperature(212, "F") + " C");
+        System.out.println("373.15 K = " + convertTemperature(373.15, "K") + " C");
 
-        // Ask the user for a temperature number
-        System.out.print("Enter the temperature: ");
-        double temperature = scanner.nextDouble();
-
-        // Ask the user what unit the temperature is in
-        System.out.print("Enter the unit (C, F, or K): ");
-        String unit = scanner.next();
-
-        // Call our convert method and save the result
-        double result = convertTemperature(temperature, unit);
-
-        // Print the result with a simple message
-        if (unit.equals("C")) {
-            System.out.println(temperature + " Celsius = " + result + " Fahrenheit");
-        }
-        else if (unit.equals("F")) {
-            System.out.println(temperature + " Fahrenheit = " + result + " Celsius");
-        }
-        else if (unit.equals("K")) {
-            System.out.println(temperature + " Kelvin = " + result + " Celsius");
-        }
-
-        // Close the scanner when we are done
-        scanner.close();
     }
 }
