@@ -25,39 +25,55 @@ public class TemperatureConverter {
             if (tempInput.equalsIgnoreCase("stop")) {
                 running = false;
             }
-            else if (!tempInput.matches("-?\\d+(\\.\\d+)?")) {
-                System.out.println("Error: Invalid temperature value.");
-            }
             else {
 
-                double temperature = Double.parseDouble(tempInput);
+                boolean validNumber = true;
 
-                System.out.print("Enter unit (C or F): ");
-                String unit = input.nextLine();
+                for (int i = 0; i < tempInput.length(); i++) {
 
-                if (!unit.equalsIgnoreCase("C")
-                        && !unit.equalsIgnoreCase("F")) {
+                    char ch = tempInput.charAt(i);
 
-                    System.out.println("Error: Invalid unit.");
+                    if (!Character.isDigit(ch)
+                            && ch != '.'
+                            && ch != '-') {
+                        validNumber = false;
+                    }
+                }
+
+                if (!validNumber || tempInput.length() == 0) {
+                    System.out.println("Error: Invalid temperature value.");
                 }
                 else {
 
-                    double converted =
-                            convertTemperature(temperature, unit);
+                    double temperature = Double.parseDouble(tempInput);
 
-                    if (unit.equalsIgnoreCase("C")) {
+                    System.out.print("Enter unit (C or F): ");
+                    String unit = input.nextLine();
 
-                        System.out.printf(
-                                "%.2f°C is equal to %.2f°F%n",
-                                temperature,
-                                converted);
+                    if (!unit.equalsIgnoreCase("C")
+                            && !unit.equalsIgnoreCase("F")) {
 
-                    } else {
+                        System.out.println("Error: Invalid unit.");
+                    }
+                    else {
 
-                        System.out.printf(
-                                "%.2f°F is equal to %.2f°C%n",
-                                temperature,
-                                converted);
+                        double converted =
+                                convertTemperature(temperature, unit);
+
+                        if (unit.equalsIgnoreCase("C")) {
+
+                            System.out.printf(
+                                    "%.2f°C is equal to %.2f°F%n",
+                                    temperature,
+                                    converted);
+
+                        } else {
+
+                            System.out.printf(
+                                    "%.2f°F is equal to %.2f°C%n",
+                                    temperature,
+                                    converted);
+                        }
                     }
                 }
             }
